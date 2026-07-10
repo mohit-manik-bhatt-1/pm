@@ -1,0 +1,12 @@
+{
+  "random_forest_accuracy": 0.9671,
+  "gradient_boosting_accuracy": 0.9746,
+  "feature_count": 16,
+  "train_rows": 4248,
+  "test_rows": 1063,
+  "classes": [
+    "Critical",
+    "Healthy",
+    "Warning"
+  ]
+}

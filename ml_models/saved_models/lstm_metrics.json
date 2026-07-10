@@ -1,0 +1,8 @@
+{
+  "test_mae_cycles": 43.39,
+  "test_mse": 2407.19,
+  "sequence_length": 20,
+  "rul_cap": 150,
+  "train_sequences": 3848,
+  "test_sequences": 963
+}
