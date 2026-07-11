@@ -29,13 +29,20 @@ app = FastAPI(
     version="0.5.0",  # 50% milestone
 )
 
+import os
+
+# Comma-separated list in env var FRONTEND_ORIGINS, e.g.:
+# FRONTEND_ORIGINS=https://your-app.vercel.app,http://localhost:5173
+_extra_origins = os.getenv("FRONTEND_ORIGINS", "")
+allowed_origins = [
+    "http://localhost:5173",  # Vite dev server (default)
+    "http://localhost:3000",  # in case frontend is served on 3000 (e.g. Docker/nginx)
+    "http://127.0.0.1:5173",
+] + [o.strip() for o in _extra_origins.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",  # Vite dev server (default)
-        "http://localhost:3000",  # in case frontend is served on 3000 (e.g. Docker/nginx)
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
