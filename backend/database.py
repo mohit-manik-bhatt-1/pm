@@ -7,15 +7,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# Update these to match your local MySQL instance, or set env vars.
+# Reads from environment variables (set these in Render / your host).
+# Falls back to local dev defaults only if env vars aren't set.
 DB_USER = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "Mandir@0")
-DB_HOST = os.getenv("DB_HOST", "localhost")  
+DB_PASSWORD = os.getenv("DB_PASSWORD", "changeme")
+DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "3306")
 DB_NAME = os.getenv("DB_NAME", "predictive_maintenance")
 
-#DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-DATABASE_URL = "mysql+pymysql://root:Mandir%400@localhost:3306/predictive_maintenance"
+# Optionally allow a full DATABASE_URL override (handy for some hosts/DB providers)
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+)
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
